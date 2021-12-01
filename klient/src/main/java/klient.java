@@ -7,10 +7,10 @@ import java.util.Scanner;
 public class klient {
     //args[0] - nazwa hosta
     //args[1] - numer portu
+    static int buffer_size;
     public static void main(String[] args) {
 
         String command;
-        final int buffer_size = 2048;
 
         if (args.length < 2) {
             System.out.println("Podaj nazwe hosta i port");
@@ -29,6 +29,7 @@ public class klient {
             DataInputStream dis = new DataInputStream(socket.getInputStream());
 
             Scanner scanIn = new Scanner(System.in);
+            recive(dis, 8, 2);  // Odebranie BUFFER_SIZE od serwera
             while (true) {
                 // available stream to be read
                 command = "path";
@@ -82,6 +83,9 @@ public class klient {
         }
         if ((length == buffer_size) && !s.isEmpty() && parametr == 1) {
             System.out.println("Serwer> " + s);
+        }
+        if ((length == buffer_size) && !s.isEmpty() && parametr == 2) {
+            klient.buffer_size=Integer.parseInt(s);
         }
     }
 }

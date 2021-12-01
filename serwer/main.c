@@ -9,7 +9,7 @@
 #include <netdb.h>
 #include <errno.h>
 
-#define BUFFER_SIZE 2048
+#define BUFFER_SIZE 16384
 
 char buf[BUFFER_SIZE] = {0};
 char result[BUFFER_SIZE] = {0};
@@ -70,7 +70,7 @@ char* microshell(char polecenie[BUFFER_SIZE])
 
     if(strcmp(arg[0], "help")=='\0')
     {
-        return "\n*** Remote MicroShell SIECI ***\nAutor: Bartosz Jackowiak\n\nMy implementation:\n'cd ~' || 'cd' - Home directory\n'cd -' - Previous directory\n'cd ..' - Parent directory\n'cd o' - Origin directory\n'cd /etc' - Absolute path\n'cd Downloads' - Relative path\n\n'Fork & exec':\n'ls -l -a' - 1 and more arguments\n'mkdir name' - Create a folder\n'rm -r name' - Remove a folder\n'date', 'echo'\n\n'exit' to shutdown server and client.\n";
+        return "\n*** Remote MicroShell SIECI ***\nAutor: Bartosz Jackowiak\n\nMy implementation:\n'cd ~' || 'cd' - Home directory\n'cd -' - Previous directory\n'cd ..' - Parent directory\n'cd o' - Origin directory\n'cd /etc' - Absolute path\n'cd /etc' - Relative path\n\n'Fork & exec':\n'ls -l -a' - 1 and more arguments\n'mkdir name' - Create a folder\n'rm -r name' - Remove a folder\n'cat plik' - Read a file\n'date', 'echo'\n\n'exit' to shutdown server and client\n";
     }
     else if(strcmp(arg[0], "path")=='\0')
     {
@@ -99,12 +99,21 @@ char* microshell(char polecenie[BUFFER_SIZE])
         {
             getcwd(oldcwd,sizeof(oldcwd));
             if(chdir(cdarg)!=0)
-                fprintf(stderr, "cd: %s: %s\n",cdarg, strerror(errno));
+            {
+                char *cderror = malloc(BUFFER_SIZE);
+                sprintf(cderror, "cd: %s: %s\n",cdarg, strerror(errno));
+                return cderror;
+            }
             return "";
         }
     }
-    else if(strcmp(arg[0], "ls")=='\0' || strcmp(arg[0], "rm")=='\0' || strcmp(arg[0], "mkdir")=='\0' || strcmp(arg[0], "date")=='\0' || strcmp(arg[0], "echo")=='\0')
+    else if(strcmp(arg[0], "ls")=='\0' || strcmp(arg[0], "rm")=='\0' || strcmp(arg[0], "mkdir")=='\0' || strcmp(arg[0], "date")=='\0' || strcmp(arg[0], "echo")=='\0' || strcmp(arg[0], "cat")=='\0')
     {
+        if(strcmp(arg[0], "cat")=='\0' && arg[1]=='\0')
+        {
+            return "cat: brakujący argument";
+        }
+
         pid_t pid;
         int fd[2];
         char buf[BUFFER_SIZE] = {0};
@@ -115,8 +124,8 @@ char* microshell(char polecenie[BUFFER_SIZE])
         {
             close(fd[0]);
             dup2(fd[1], STDOUT_FILENO);
+            dup2(fd[1], STDERR_FILENO);
             execvp(arg[0], arg);
-            fprintf(stderr, "%s: command not found: Error code (%d)\n",arg[0], errno);
             return 0;
         }
         else
@@ -179,6 +188,9 @@ int main(int argc, char **argv)
 
     while ((sdconnection = accept(sdsocket, (struct sockaddr*) &endpoint, &addrlen)) >= 0)
     {
+        char str_buf[8] = {0};
+        sprintf(str_buf, "%d", BUFFER_SIZE);
+        send(sdconnection, str_buf, 8, 0);  //Wyslanie BUFFER_SIZE do klienta
         while(1)
         {
             recv(sdconnection, buf, BUFFER_SIZE, 0);
