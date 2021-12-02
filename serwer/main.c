@@ -10,6 +10,7 @@
 #include <errno.h>
 
 #define BUFFER_SIZE 16384
+//16384
 
 char buf[BUFFER_SIZE] = {0};
 char result[BUFFER_SIZE] = {0};
@@ -70,7 +71,7 @@ char* microshell(char polecenie[BUFFER_SIZE])
 
     if(strcmp(arg[0], "help")=='\0')
     {
-        return "\n*** Remote MicroShell SIECI ***\nAutor: Bartosz Jackowiak\n\nMy implementation:\n'cd ~' || 'cd' - Home directory\n'cd -' - Previous directory\n'cd ..' - Parent directory\n'cd o' - Origin directory\n'cd /etc' - Absolute path\n'cd /etc' - Relative path\n\n'Fork & exec': (1 and more arguments)\n'ls -l -a' - List the files in the current working directory\n'mkdir name' - Create a folder\n'rm -r name' - Remove a folder\n'cat plik' - Read a file\n'wc -c plik' - How many chars\n'date', 'echo'\n\nYou can use all avaible arguments in this programs like 'wc --help'\n'exit' to shutdown server and client\n";
+        return "\n*** Remote MiCrOShElL SIECI ***\nAutor: Bartosz Jackowiak\n\nMy implementation:\n'cd ~' - Home directory\n'cd -' - Previous directory\n'cd ..' - Parent directory\n'cd o' - Origin directory\n'cd /etc' - Absolute path\n'cd /etc' - Relative path\n\n'Fork & exec': (1 and more arguments)\n'ls -l -a' - List the files in the current working directory\n'mkdir name' - Create a folder\n'rm -r name' - Remove a folder\n'cat plik' - Read a file\n'wc -c plik' - How many chars\n'date', 'echo', 'ifconfig', 'iwconfig', 'hostname'\n\nYou can use all avaible arguments in this programs like 'wc --help'\n'exit' to shutdown server and client\n";
     }
     else if(strcmp(arg[0], "path")=='\0')
     {
@@ -107,7 +108,7 @@ char* microshell(char polecenie[BUFFER_SIZE])
             return "";
         }
     }
-    else if(strcmp(arg[0], "ls")=='\0' || strcmp(arg[0], "rm")=='\0' || strcmp(arg[0], "mkdir")=='\0' || strcmp(arg[0], "date")=='\0' || strcmp(arg[0], "echo")=='\0' || strcmp(arg[0], "cat")=='\0' || strcmp(arg[0], "wc")=='\0')
+    else if(strcmp(arg[0], "ls")=='\0' || strcmp(arg[0], "rm")=='\0' || strcmp(arg[0], "mkdir")=='\0' || strcmp(arg[0], "rmdir")=='\0' || strcmp(arg[0], "date")=='\0' || strcmp(arg[0], "echo")=='\0' || strcmp(arg[0], "cat")=='\0' || strcmp(arg[0], "wc")=='\0' || strcmp(arg[0], "ifconfig")=='\0' || strcmp(arg[0], "iwconfig")=='\0' || strcmp(arg[0], "hostname")=='\0')
     {
         if(strcmp(arg[0], "cat")=='\0' && arg[1]=='\0')
         {
@@ -137,6 +138,8 @@ char* microshell(char polecenie[BUFFER_SIZE])
             wait(&signal);
             close(fd[1]);
             read(fd[0], buf, BUFFER_SIZE);
+            buf[BUFFER_SIZE-2]='\n';
+            buf[BUFFER_SIZE-1]='\0';
             if(strcmp(buf, " "))
             {
                 strcpy(polecenie, buf);

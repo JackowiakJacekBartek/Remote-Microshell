@@ -39,7 +39,6 @@ public class klient {
                 // pobranie path z serwera
                 recive(dis, buffer_size, 0);
 
-                // available stream to be read
                 //System.out.println("Enter command: ");
                 if ((command = scanIn.nextLine()).isEmpty() || !(command.matches(".*\\w.*")))
                     continue;
