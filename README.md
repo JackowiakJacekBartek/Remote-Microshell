@@ -1,5 +1,6 @@
 # Remote-Microshell
 Remote Microshell napisany na sieci
+Klient napisany w java, serwer napisany w C.
 
 ```shell
 Remote MiCrOShElL SIECI
