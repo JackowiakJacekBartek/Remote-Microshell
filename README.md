@@ -23,6 +23,11 @@ You can use all avaible arguments in this programs like 'wc --help'
 
 Kompilacja
 ```shell
-gcc -o microshell microshell.c
-./microshell
+/serwer
+gcc -o main main.c
+./main port
+
+/klient/src/main/java
+javac klient.java
+java klient hostname port
 ```
