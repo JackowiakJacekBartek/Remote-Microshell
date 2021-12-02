@@ -30,6 +30,6 @@ gcc -o main main.c
 ./main port
 
 /klient/src/main/java
-javac klient.java
-java klient hostname port
+javac Klient.java
+java Klient hostname port
 ```
