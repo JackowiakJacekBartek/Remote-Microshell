@@ -71,7 +71,7 @@ char* microshell(char polecenie[BUFFER_SIZE])
 
     if(strcmp(arg[0], "help")=='\0')
     {
-        return "\n*** Remote MiCrOShElL SIECI ***\nAutor: Bartosz Jackowiak\n\nMy implementation:\n'cd ~' - Home directory\n'cd -' - Previous directory\n'cd ..' - Parent directory\n'cd o' - Origin directory\n'cd /etc' - Absolute path\n'cd /etc' - Relative path\n\n'Fork & exec': (1 and more arguments)\n'ls -l -a' - List the files in the current working directory\n'mkdir name' - Create a folder\n'rm -r name' - Remove a folder\n'cat plik' - Read a file\n'wc -c plik' - How many chars\n'date', 'echo', 'ifconfig', 'iwconfig', 'hostname'\n\nYou can use all avaible arguments in this programs like 'wc --help'\n'exit' to shutdown server and client\n";
+        return "\n*** Remote MiCrOShElL SIECI ***\nAutor: Bartosz Jackowiak\n\nMy implementation:\n'cd ~' - Home directory\n'cd -' - Previous directory\n'cd ..' - Parent directory\n'cd o' - Origin directory\n'cd /etc' - Absolute path\n'cd /etc' - Relative path\n\n'Fork & exec': (1 and more arguments)\n'ls -l -a' - List all the files in the current working directory\n'mkdir name' - Create a folder\n'rm -r name' - Remove a folder\n'cat plik' - Read a file\n'wc -c plik' - How many chars\n'date', 'echo', 'ifconfig', 'iwconfig', 'hostname'\n\nYou can use all avaible arguments in this programs like 'wc --help'\n'exit' to shutdown server and client\n";
     }
     else if(strcmp(arg[0], "path")=='\0')
     {
