@@ -10,8 +10,9 @@ My implementation:
 'cd o' - Origin directory
 'cd /etc' - Absolute path
 'cd /etc' - Relative path
+
 'Fork & exec': (1 and more arguments)
-'ls -l -a' - List the files in the current working directory
+'ls -l -a' - List all the files in the current working directory
 'mkdir name' - Create a folder
 'rm -r name' - Remove a folder
 'cat plik' - Read a file
