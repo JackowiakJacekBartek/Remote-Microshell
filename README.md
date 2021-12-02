@@ -16,8 +16,8 @@ My implementation:
 'ls -l -a' - List all the files in the current working directory
 'mkdir name' - Create a folder
 'rm -r name' - Remove a folder
-'cat plik' - Read a file
-'wc -c plik' - How many chars
+'cat file_name' - Read a file
+'wc -c file_name' - How many chars in a file
 'date', 'echo', 'ifconfig', 'iwconfig', 'hostname'
 You can use all avaible arguments in this programs like 'wc --help'
 'exit' to shutdown server and client\n";
