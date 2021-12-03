@@ -8,6 +8,8 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <errno.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 #define BUFFER_SIZE 16384
 //16384
@@ -60,7 +62,7 @@ char* microshell(char polecenie[BUFFER_SIZE])
     for(int i=0; i<gdzienull; i++)            //Pętla kodu for kodu wzorowana na kodzie ze strony: https://cpp0x.pl/dokumentacja/standard-C/strtok/442
     {
         char korektor[] = " ";
-        char * schowek;
+        char *schowek;
         schowek = strtok(polecenie, korektor);
         for(int i=0; schowek!=NULL; i++)
         {
@@ -110,11 +112,11 @@ char* microshell(char polecenie[BUFFER_SIZE])
     }
     else if(strcmp(arg[0], "ls")=='\0' || strcmp(arg[0], "rm")=='\0' || strcmp(arg[0], "mkdir")=='\0' || strcmp(arg[0], "rmdir")=='\0' || strcmp(arg[0], "date")=='\0' || strcmp(arg[0], "echo")=='\0' || strcmp(arg[0], "cat")=='\0' || strcmp(arg[0], "wc")=='\0' || strcmp(arg[0], "ifconfig")=='\0' || strcmp(arg[0], "iwconfig")=='\0' || strcmp(arg[0], "hostname")=='\0')
     {
-        if(strcmp(arg[0], "cat")=='\0' && arg[1]=='\0')
+        if(strcmp(arg[0], "cat")=='\0' && arg[1]==NULL)
         {
             return "cat: brakujący argument";
         }
-        if(strcmp(arg[0], "wc")=='\0' && arg[1]=='\0')
+        if(strcmp(arg[0], "wc")=='\0' && arg[1]==NULL)
         {
             return "wc: brakujący argument";
         }
